@@ -13,6 +13,7 @@ API_AVAILABLE(ios(10.0))
                    handleType:(NSString *_Nonnull)handleType
                      hasVideo:(BOOL)hasVideo
           localizedCallerName:(NSString * _Nullable)localizedCallerName
+                 callerAvatar:(NSString * _Nullable)callerAvatar
                   fromPushKit:(BOOL)fromPushKit
                    completion:(void (^)(void))completion;
 @end

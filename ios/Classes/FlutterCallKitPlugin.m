@@ -159,7 +159,8 @@ static CXProvider* sharedProvider;
     NSString* handleType = arguments[@"handleType"];
     NSNumber* video = arguments[@"video"];
     NSString* localizedCallerName = arguments[@"localizedCallerName"];
-    [FlutterCallKitPlugin reportNewIncomingCall:uuidString handle:handle handleType:handleType hasVideo:[video boolValue] localizedCallerName:localizedCallerName fromPushKit:NO completion:nil];
+    NSString* callerAvatar = arguments[@"callerAvatar"];
+    [FlutterCallKitPlugin reportNewIncomingCall:uuidString handle:handle handleType:handleType hasVideo:[video boolValue] localizedCallerName:localizedCallerName callerAvatar:callerAvatar fromPushKit:NO completion:nil];
     result(nil);
 }
 
@@ -501,6 +502,7 @@ continueUserActivity:(NSUserActivity *)userActivity
                    handleType:(NSString *)handleType
                      hasVideo:(BOOL)hasVideo
           localizedCallerName:(NSString * _Nullable)localizedCallerName
+                 callerAvatar:(NSString * _Nullable)callerAvatar
                   fromPushKit:(BOOL)fromPushKit
                    completion: (void (^)(void))completion
 {
@@ -523,7 +525,7 @@ continueUserActivity:(NSUserActivity *)userActivity
     [sharedProvider reportNewIncomingCallWithUUID:uuid update:callUpdate completion:^(NSError * _Nullable error) {
         [[NSNotificationCenter defaultCenter] postNotificationName:kIncomingCallNotification
                                                             object:self
-                                                          userInfo:@{ @"error": error ? error.localizedDescription : @"", @"callUUID": [uuidString lowercaseString], @"handle": handle, @"localizedCallerName": localizedCallerName, @"hasVideo": @(hasVideo), @"fromPushKit":[NSNumber numberWithBool:fromPushKit] }];
+                                                          userInfo:@{ @"error": error ? error.localizedDescription : @"", @"callUUID": [uuidString lowercaseString], @"handle": handle, @"localizedCallerName": localizedCallerName, @"callerAvatar": callerAvatar, @"hasVideo": @(hasVideo), @"fromPushKit":[NSNumber numberWithBool:fromPushKit] }];
         if(completion!=nil){
             completion();
         }
